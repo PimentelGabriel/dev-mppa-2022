@@ -1,0 +1,536 @@
+Current API implementations
+
+termux-battery-status
+   Get the status of the device battery.
+
+termux-brightness
+   Set the screen brightness between 0 and 255.
+
+termux-call-log
+   List call log history.
+
+
+   Usage
+    termux-call-log [options]
+    
+    Output displayed in json format.
+    
+    Options
+    -l limit   offset in call log list (default: 10)
+    -o offset  offset in call log list (default: 0)
+
+
+termux-camera-info
+   Get information about device camera(s).
+
+termux-camera-photo
+   Take a photo and save it to a file in JPEG format.
+
+   Usage
+    termux-camera-photo [-c camera-id] output-file
+    
+    Photo is saved at specified file path.
+    
+    Options
+    -c camera-id  ID of the camera to use (see termux-camera-info), default: 0
+    
+
+termux-clipboard-get
+   Get the system clipboard text.
+
+termux-clipboard-set
+   Set the system clipboard text.
+
+   Usage
+    termux-clipboard-set [text]
+    
+    Text is read either from standard input or from command line arguments.
+    
+    Examples
+    termux-clipboard-set "hello world"
+    cat file.txt | termux-clipboard-set
+    
+
+termux-contact-list
+   List all contacts.
+
+termux-dialog
+   Show a text entry dialog.
+
+   Usage
+    termux-dialog widget [options]
+    
+    Output is returned in json format.
+    
+    Options
+    -l, list   List all widgets and their options
+    -t, title  Set title of input dialog (optional)
+    Widget-specific options
+    confirm - Show confirmation dialog
+        [-i hint] text hint (optional)
+        [-t title] set title of dialog (optional)
+    
+    checkbox - Select multiple values using checkboxes
+        [-v ",,,"] comma delim values to use (required)
+        [-t title] set title of dialog (optional)
+    
+    counter - Pick a number in specified range
+        [-r min,max,start] comma delim of (3) numbers to use (optional)
+        [-t title] set title of dialog (optional)
+    
+    date - Pick a date
+        [-t title] set title of dialog (optional)
+        [-d "dd-MM-yyyy k:m:s"] SimpleDateFormat Pattern for date widget output (optional)
+    
+    radio - Pick a single value from radio buttons
+        [-v ",,,"] comma delim values to use (required)
+        [-t title] set title of dialog (optional)
+    
+    sheet - Pick a value from sliding bottom sheet
+        [-v ",,,"] comma delim values to use (required)
+        [-t title] set title of dialog (optional)
+    
+    spinner - Pick a single value from a dropdown spinner
+        [-v ",,,"] comma delim values to use (required)
+        [-t title] set title of dialog (optional)
+    
+    speech - Obtain speech using device microphone
+        [-i hint] text hint (optional)
+        [-t title] set title of dialog (optional)
+    
+    text - Input text (default if no widget specified)
+        [-i hint] text hint (optional)
+        [-m] multiple lines instead of single (optional)*
+        [-n] enter input as numbers (optional)*
+        [-p] enter input as password (optional)
+        [-t title] set title of dialog (optional)
+           * cannot use [-m] with [-n]
+    
+    time - Pick a time value
+        [-t title] set title of dialog (optional)
+    
+
+termux-download
+   Download a resource using the system download manager.
+
+   Usage
+    termux-download [-d description] [-t title] [-p path] url-to-download
+    
+    Does not return anything.
+    
+    Options
+    -d description  description for the download request notification
+    -t title        title for the download request notification
+    -p path         path to save the downloaded file
+
+termux-fingerprint
+   Use fingerprint sensor on device to check for authentication.
+
+   
+
+termux-infrared-frequencies
+   Query the infrared transmitter's supported carrier frequencies.
+
+termux-infrared-transmit
+   Transmit an infrared pattern.
+
+  Usage
+    termux-infrared-transmit -f frequency pattern
+    
+    The pattern is specified in comma-separated on/off intervals, such as '20,50,20,30'. Only patterns shorter than 2 seconds will be transmitted.
+    
+    Options
+    -f frequency  IR carrier frequency in Hertz. Mandatory.
+    Note
+    This API can be used only on devices that have infrared transmitter.
+    
+    
+
+termux-job-scheduler
+   Schedule a Termux script to run later, or periodically.
+
+termux-location
+   Get the device location.
+
+   Usage
+    termux-location [-p provider] [-r request]
+    
+    Output displayed in json format.
+    
+    Options
+    -p provider  location provider [gps/network/passive] (default: gps)
+    -r request   kind of request to make [once/last/updates] (default: once)
+    Note
+    GPS likely will not work in buildings as device must be exposed to satellite signal.
+    GPS also requires that your device clock is set correctly. For the answer to question why, learn how GPS works.
+    Do not expect immediate location result. Even network location request may take some time.
+
+termux-media-player
+   Play media files.
+
+   Usage
+    termux-media-player [command] [args]
+    
+    Commands
+    info        Displays current playback information
+    play        Resumes playback if paused
+    play <file> Plays specified media file
+    pause       Pauses playback
+    stop        Quits playback
+    
+termux-media-scan
+   MediaScanner interface, make file changes visible to Android Gallery
+
+   Usage
+    termux-media-scan [-v] [-r] file [file...]
+    
+    Output displayed in plain text (informational message).
+    
+    Options
+    -r  scan directories recursively
+    -v  verbose mode
+    
+
+termux-microphone-record
+   Recording using microphone on your device.
+
+   Usage
+    termux-microphone-record [args]
+    
+    Options
+    -d           Start recording w/ defaults
+    -f <file>    Start recording to specific file
+    -l <limit>   Start recording w/ specified limit (in seconds, unlimited for 0)
+    -e <encoder> Start recording w/ specified encoder (aac, amr_wb, amr_nb)
+    -b <bitrate> Start recording w/ specified bitrate (in kbps)
+    -r <rate>    Start recording w/ specified sampling rate (in Hz)
+    -c <count>   Start recording w/ specified channel count (1, 2, ...)
+    -i           Get info about current recording
+    -q           Quits recording
+    
+termux-notification
+   Display a system notification.
+
+   Usage
+    termux-notification [options]
+    
+    Options
+     --action action          action to execute when pressing the notification
+     --alert-once             do not alert when the notification is edited
+     --button1 text           text to show on the first notification button
+     --button1-action action  action to execute on the first notification button
+     --button2 text           text to show on the second notification button
+     --button2-action action  action to execute on the second notification button
+     --button3 text           text to show on the third notification button
+     --button3-action action  action to execute on the third notification button
+     -c/--content content     content to show in the notification. Will take precedence over stdin.
+     --group group            notification group (notifications with the same group are shown together)
+     -h/--help                show this help
+     --help-actions           show the help for actions
+     -i/--id id               notification id (will overwrite any previous notification with the same id)
+     --image-path path        absolute path to an image which will be shown in the notification
+     --led-color rrggbb       color of the blinking led as RRGGBB (default: none)
+     --led-off milliseconds   number of milliseconds for the LED to be off while it's flashing (default: 800)
+     --led-on milliseconds    number of milliseconds for the LED to be on while it's flashing (default: 800)
+     --on-delete action       action to execute when the the notification is cleared
+     --ongoing                pin the notification
+     --priority prio          notification priority (high/low/max/min/default)
+     --sound                  play a sound with the notification
+     -t/--title title         notification title to show
+     --vibrate pattern        vibrate pattern, comma separated as in 500,1000,200
+     --type type              notification style to use (default/media)
+    Media actions (available with --type "media"):
+    
+     --media-next             action to execute on the media-next button
+     --media-pause            action to execute on the media-pause button
+     --media-play             action to execute on the media-play button
+     --media-previous         action to execute on the media-previous button
+    
+    Action arguments
+    Commands like --action, --on-delete, --button-1-action and --media-next take an action string as their argument, which is fed to `dash -c`. A few important things must be kept in mind when using actions:
+    
+    You should use actions that do things outside of the terminal, like --action "termux-toast hello". Anything that outputs to the terminal is useless, so the output should either be redirected (--action "ls > ~/ls.txt") or shown to the user in a different way (--action "ls|termux-toast").
+    
+    Running more than one command in a single action is as easy as --action "command1; command2; command3" or --action "if [ -e file ]; then termux-toast yes; else termux-toast no; fi".
+    
+    For anything more complex, you should put your script in a file, make it executable, and use that as the action: --action ~/bin/script
+    
+    The action is run in a different environment (not a subshell). Thus your environment is lost (most notably $PATH), and ~/.profile is not sourced either. So if you need your $PATH you should either:
+    
+    if the action is a script, set it explicitly in the script (e.g. export PATH="$HOME/bin:$PATH")
+    or use something like --action "bash -l -c 'command1; command2'").
+
+termux-notification-remove
+   Remove a notification previously shown with termux-notification --id.
+
+   Usage
+    termux-notification-remove [id]
+    
+    Notification id is a value previously used to show notification with command "termux-notification".
+
+termux-sensor
+   Get information about types of sensors as well as live data.
+
+   Usage
+    termux-sensor [options]
+    
+    Output displayed in json format.
+    
+    Options
+    -h, help           Show this help
+    -a, all            Listen to all sensors (WARNING! may have battery impact)
+    -c, cleanup        Perform cleanup (release sensor resources)
+    -l, list           Show list of available sensors
+    -s, sensors [,,,]  Sensors to listen to (can contain just partial name)
+    -d, delay [ms]     Delay time in milliseconds before receiving new sensor update
+    -n, limit [num]    Number of times to read sensor(s) (default: continuous) (min: 1)
+    Note
+    Different devices have different sensors. Check the available sensors for your device with command termux-sensor -l.
+
+
+termux-share
+   Share a file specified as argument or the text received on stdin.
+
+   Usage
+    termux-share [options] [file]
+    
+    If file to share is not specified, program will read standard input.
+    
+    Options
+    -a action        which action to performed on the shared content:
+                     edit/send/view (default:view)
+    -c content-type  content-type to use (default: guessed from file extension,
+                     text/plain for stdin)
+    -d               share to the default receiver if one is selected
+                     instead of showing a chooser
+    -t title         title to use for shared content (default: shared file name)
+
+termux-sms-list
+   List SMS messages.
+
+   Usage
+    termux-sms-list [options]
+    
+    Output displayed in json format.
+    
+    Options
+    -d         show dates when messages were created
+    -l limit   offset in sms list (default: 10)
+    -n         show phone numbers
+    -o offset  offset in sms list (default: 0)
+    -t type    the type of messages to list (default: inbox):
+               all|inbox|sent|draft|outbox
+
+termux-sms-send
+   Send a SMS message to the specified recipient number(s).
+
+   Usage
+     termux-sms-send -n number[,number2,number3,...] [-s slot] [text]
+    The text to send is either supplied as arguments or read from stdin if no arguments are given.
+    
+    Options
+    -n number(s)  recipient number(s) - separate multiple numbers by commas
+    -s slot sim slot to use - silently fails if slot number is invalid or if missing READ_PHONE_STATE permission
+    
+
+termux-storage-get
+   Request a file from the system and output it to the specified file.
+
+   Usage
+    termux-storage-get [output-file]
+    
+    Output file is mandatory argument. Also, make sure that specified path is writable.
+    
+termux-telephony-call
+   Call a telephony number.
+
+   Usage
+    termux-telephony-call [number]
+    
+    Requires a telephony number specified in appropriate format.
+
+termux-telephony-cellinfo
+   Get information about all observed cell information from all radios on the device including the primary and neighboring cells.
+
+termux-telephony-deviceinfo
+   Get information about the telephony device.
+
+termux-toast
+   Show a transient popup notification.
+
+   Usage
+    termux-toast [options] [text]
+    
+    The text to show is either supplied as arguments or read from stdin if no arguments are given.
+    
+    Options
+    -h  show this help
+    -b  set background color (default: gray)
+    -c  set text color (default: white)
+    -g  set position of toast: [top, middle, or bottom] (default: middle)
+    -s  only show the toast for a short while
+    Note
+    Color can be a standard name (i.e. red) or 6 / 8 digit hex value (i.e. "#FF0000" or "#FFFF0000") where order is (AA)RRGGBB. Invalid color will revert to default value.
+
+
+termux-torch
+   Toggle LED Torch on device.
+
+   Usage
+    termux-torch [on | off]
+    
+    
+    Program accepts a one of these values:
+    
+    on - enable torch.
+    off - disable torch.
+    
+
+termux-tts-engines
+   Get information about the available text-to-speech engines.
+
+termux-tts-speak
+   Speak text with a system text-to-speech engine.
+
+  Usage
+    termux-tts-speak [-e engine] [-l language] [-n region] [-v variant] [-p pitch] [-r rate] [-s stream] [text-to-speak]
+    
+    Options
+     -e engine    TTS engine to use (see termux-tts-engines)
+     -l language  language to speak in (may be unsupported by the engine)
+     -n region    region of language to speak in
+     -v variant   variant of the language to speak in
+     -p pitch     pitch to use in speech. 1.0 is the normal pitch,
+                    lower values lower the tone of the synthesized voice,
+                    greater values increase it.
+     -r rate      speech rate to use. 1.0 is the normal speech rate,
+                    lower values slow down the speech
+                    (0.5 is half the normal speech rate)
+                    while greater values accelerates it
+                    (2.0 is twice the normal speech rate).
+     -s stream    audio stream to use (default:NOTIFICATION), one of:
+                    ALARM, MUSIC, NOTIFICATION, RING, SYSTEM, VOICE_CALL
+    Tips & Tricks
+    Termux-tts-speak is slow to start
+    It takes quite some time for it to actually play anything, but most of that lost time comes due to startup time of the engine. You can keep the engine running by using a fifo queue instead.
+    
+       mkfifo ~/.tts
+       while true; do cat ~/.tts; done | termux-tts-speak
+    Then you can use it like this:
+    
+       echo Today is > ~/.tts
+       date > ~/.tts
+    This will keep termux-tts-speak running and just play anything that's send to ~/.tts
+
+termux-usb
+   List or access USB devices.
+
+   Usage
+    termux-usb [-l | [-r] [-e command] device]
+    
+    Options
+    -l               list available devices
+    -r               show permission request dialog if not already granted
+    -e command       execute the specified command with a file descriptor
+                     referring to the device as its argument
+    Details
+    Android doesn't allow direct access to usb devices, you need to request a file descriptor for the device from the Java API instead. This means that Linux usb software will need to be modified to work within Termux.
+    
+    Here is a sample project to get started:
+    
+    Make sure you have the Termux:API application installed. Set up the necessary packages within Termux.
+    
+    pkg install termux-api libusb clang
+    Enable OTG (host) mode and insert a usb device. Wait for it to be recognised and verify it using the API:
+    
+    termux-usb -l
+    Let's assume the device is /dev/bus/usb/001/002. Ask for permission to access it:
+    
+    termux-usb -r /dev/bus/usb/001/002
+    Try using it from libusb. Save this sample code as usbtest.c: (download)
+    
+    #include <stdio.h>
+    #include <assert.h>
+    #include <libusb-1.0/libusb.h>
+    
+    int main(int argc, char **argv) {
+        libusb_context *context;
+        libusb_device_handle *handle;
+        libusb_device *device;
+        struct libusb_device_descriptor desc;
+        unsigned char buffer[256];
+        int fd;
+        assert((argc > 1) && (sscanf(argv[1], "%d", &fd) == 1));
+        libusb_set_option(NULL, LIBUSB_OPTION_WEAK_AUTHORITY);
+        assert(!libusb_init(&context));
+        assert(!libusb_wrap_sys_device(context, (intptr_t) fd, &handle));
+        device = libusb_get_device(handle);
+        assert(!libusb_get_device_descriptor(device, &desc));
+        printf("Vendor ID: %04x\n", desc.idVendor);
+        printf("Product ID: %04x\n", desc.idProduct);
+        assert(libusb_get_string_descriptor_ascii(handle, desc.iManufacturer, buffer, 256) >= 0);
+        printf("Manufacturer: %s\n", buffer);
+        assert(libusb_get_string_descriptor_ascii(handle, desc.iProduct, buffer, 256) >= 0);
+        printf("Product: %s\n", buffer);
+        if (libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, buffer, 256) >= 0)
+            printf("Serial No: %s\n", buffer);
+        libusb_exit(context);
+    }
+    This utility shows some basic information about a usb device. It takes the device file descriptor as its only command-line argument. Let's compile it:
+    
+    gcc usbtest.c -lusb-1.0 -o usbtest
+    Use the -e option of termux-usb to run ./usbtest with the correct file descriptor:
+    
+    termux-usb -e ./usbtest /dev/bus/usb/001/002
+
+termux-vibrate
+   Vibrate the device.
+
+   Usage
+    termux-vibrate [options]
+    
+    Options
+    -d duration  the duration to vibrate in ms (default:1000)
+    -f           force vibration even in silent mode
+
+
+termux-volume
+   Change volume of audio stream.
+
+   Usage
+    termux-volume [stream] [volume]
+    
+    Valid audio streams are: alarm, music, notification, ring, system, call.
+    
+    Call w/o arguments to show information about each audio stream (output format is json).
+
+termux-wallpaper
+   Change wallpaper on your device.
+
+    Usage
+    termux-wallpaper cmd [options]
+    
+    Options
+    -f <file>  set wallpaper from file
+    -u <url>   set wallpaper from url resource
+    -l         set wallpaper for lockscreen (Nougat and later)
+    
+
+   Get information about the current wifi connection.
+
+    
+
+termux-wifi-enable
+   Toggle Wi-Fi On/Off.
+
+   Usage
+    termux-wifi-enable [true | false]
+    
+    
+    Program accepts a one of these values:
+    
+    true - enable Wi-Fi
+    false - disable Wi-Fi
+
+termux-wifi-scaninfo
+    Get information about the last wifi scan.
